@@ -1,0 +1,4 @@
+.tab-navbar::-webkit-scrollbar {
+    display: block;
+    width: 4px;
+}
