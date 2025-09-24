@@ -1,0 +1,12 @@
+/* Accordion transition */
+.navigation-main li ul {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    /* smooth expand/collapse */
+}
+
+.navigation-main li.active>ul {
+    max-height: 500px;
+    /* big enough to fit submenu */
+}

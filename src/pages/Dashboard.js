@@ -6,7 +6,7 @@ function Dashboard({ }) {
 
     return (
         <div id="dashboard">
-            <Backend pageheading="Dashboard">
+            <Backend pageheading="Dashboard" spinner>
                 This is dashboard
             </Backend>
         </div>
