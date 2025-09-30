@@ -1,31 +1,28 @@
 import * as React from "react";
 import * as auth from "../auth-provider";
 import { client } from "../utils/client";
-import { useAsync } from "../hooks/useAsync/useAsync.js";
-// import SpinnerFullPage from "../components/SpinnerFullPage";
-import LoadableSection from "../components/Spinner/LoadableSection";
-
+import { useAsync } from "../hooks/useAsync/useAsync";
 
 async function bootstrapAppData() {
     let userInfo = null;
 
     const token = await auth.getToken();
-    if (token) {
-        const data = await client("dashboard-bootstrap", { token });
-        // queryCache.setQueryData("list-items", data.listItems, {
-        //   staleTime: 5000,
-        // });
-        // for (const listItem of data.listItems) {
-        //   setQueryDataForBook(listItem.book);
-        // }
-        userInfo = {
-            ...data.data.infoDetails,
-            token: token,
-            familyMembersInfo: data.data.familyMembersInfo,
-            devicesAndNotifications: data.data.devicesAndNotifications,
-        };
-    }
-    return userInfo;
+    // if (token) {
+    //     const data = await client("dashboard-bootstrap", { token });
+    //     // queryCache.setQueryData("list-items", data.listItems, {
+    //     //   staleTime: 5000,
+    //     // });
+    //     // for (const listItem of data.listItems) {
+    //     //   setQueryDataForBook(listItem.book);
+    //     // }
+    //     userInfo = {
+    //         ...data.data.infoDetails,
+    //         token: token,
+    //         familyMembersInfo: data.data.familyMembersInfo,
+    //         devicesAndNotifications: data.data.devicesAndNotifications,
+    //     };
+    // }
+    // return userInfo;
 }
 
 const AuthContext = React.createContext();
@@ -71,6 +68,7 @@ function AuthProvider(props) {
     const login = React.useCallback(
         (form) =>
             auth.login(form).then(async (token) => {
+                console.log("I am here login")
                 const appDataPromise = bootstrapAppData();
                 run(appDataPromise).then((data) => {
                     userRef.current = {
@@ -121,7 +119,7 @@ function AuthProvider(props) {
     );
 
     if (isLoading || isIdle) {
-        return <LoadableSection loaderKey="header"></LoadableSection>;
+        return;
     }
 
     if (isError) {
@@ -134,7 +132,6 @@ function AuthProvider(props) {
 
     throw new Error(`Unhandled status: ${status}`);
 }
-
 
 function useAuth() {
     const context = React.useContext(AuthContext);

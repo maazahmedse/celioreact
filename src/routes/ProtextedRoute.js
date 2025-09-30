@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ user, redirectPath = "/login", children }) => {
     const location = useLocation();
-    const navigate = useNavigate();
 
     const redirectTo = location.pathname + location.search;
     if (!user) {
