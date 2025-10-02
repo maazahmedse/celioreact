@@ -3,14 +3,29 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLoader } from "../../context/LoaderContext";
 import LoadableSection from "../../components/Spinner/LoadableSection";
+import { useClient } from "../../context/authContext";
+import { useAsync } from "../../hooks/useAsync/useAsync";
+
+
 
 const Header = (props) => {
     const { showLoader, hideLoader } = useLoader();
+    const { data, isLoading, isError, error, run } = useAsync();
+    const client = useClient();
 
     useEffect(() => {
         // For Loader
         showLoader("header");
         setTimeout(() => { hideLoader("header"); }, 1500);
+
+        // First get the user data 
+
+        client("category");
+
+
+
+
+
 
         const toggleButton = document.querySelector(".sidebar-main-toggle");
         if (toggleButton) {

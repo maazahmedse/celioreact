@@ -3,14 +3,17 @@ import './App.css';
 import AppRoutes from './routes/Approutes';
 import { AuthProvider } from './context/authContext';
 import { LoaderProvider } from './context/LoaderContext';
+import { ToastProvider } from './context/ToastContext';
 
 function App() {
   return (
     <div>
       <LoaderProvider>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </ToastProvider>
       </LoaderProvider>
     </div>
   );

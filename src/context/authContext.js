@@ -7,22 +7,22 @@ async function bootstrapAppData() {
     let userInfo = null;
 
     const token = await auth.getToken();
-    // if (token) {
-    //     const data = await client("dashboard-bootstrap", { token });
-    //     // queryCache.setQueryData("list-items", data.listItems, {
-    //     //   staleTime: 5000,
-    //     // });
-    //     // for (const listItem of data.listItems) {
-    //     //   setQueryDataForBook(listItem.book);
-    //     // }
-    //     userInfo = {
-    //         ...data.data.infoDetails,
-    //         token: token,
-    //         familyMembersInfo: data.data.familyMembersInfo,
-    //         devicesAndNotifications: data.data.devicesAndNotifications,
-    //     };
-    // }
-    // return userInfo;
+    if (token) {
+        const data = await client("dashboard", { token });
+        //     // queryCache.setQueryData("list-items", data.listItems, {
+        //     //   staleTime: 5000,
+        //     // });
+        //     // for (const listItem of data.listItems) {
+        //     //   setQueryDataForBook(listItem.book);
+        //     // }
+        userInfo = {
+            ...data.data.infoDetails,
+            token: token,
+            datainfo: data.data,
+        };
+    }
+    console.log("I am here")
+    return userInfo;
 }
 
 const AuthContext = React.createContext();
@@ -65,10 +65,10 @@ function AuthProvider(props) {
             }
         });
     }, []);
+
     const login = React.useCallback(
         (form) =>
             auth.login(form).then(async (token) => {
-                console.log("I am here login")
                 const appDataPromise = bootstrapAppData();
                 run(appDataPromise).then((data) => {
                     userRef.current = {

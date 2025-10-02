@@ -8,14 +8,15 @@ import { useAuth } from "../context/authContext";
 import axios from "axios";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { API } from '../hooks/useBaseURL/useBaseURL';
-
+import { useToast } from "../context/ToastContext";
 
 function Login() {
-
+    const { showToast } = useToast();
     const query = new URLSearchParams(
         useLocation().search.replace("&", "__AMPERSAND__")
     );
     const redirect_to = query.get("redirect_to")?.replace("__AMPERSAND__", "&");
+
     const { data, isLoading, isError, error, run } = useAsync();
     const { login, user } = useAuth();
     const {
@@ -26,6 +27,26 @@ function Login() {
         formState: { errors, isSubmitting, isDirty, isValid },
     } = useForm({ mode: "onChange" });
 
+    const navigate = useNavigate();
+    useEffect(() => {
+
+        console.log(user);
+        if (user) {
+            // if (user?.is_subscriber) {
+            //     if (redirect_to) {
+            // navigate(redirect_to);
+            //     } else {
+            navigate("/dashboard");
+            //     }
+            // } else {
+            //     navigate("/login");
+            // }
+        }
+    }, [user]);
+
+
+
+
     // const [referralMail, setReferralMail, removeReferralMail] =
     // useLocalStorage("Username", email);
 
@@ -33,20 +54,6 @@ function Login() {
     // const [referralMail, setReferralMail, removeReferralMail] =
     //     useLocalStorage("referral_email");
 
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (user) {
-            if (user?.is_subscriber) {
-                if (redirect_to) {
-                    navigate(redirect_to);
-                } else {
-                    navigate("/dashboard");
-                }
-            } else {
-                navigate("/login");
-            }
-        }
-    }, [user]);
 
 
     const onSubmit = (loginData, e) => {
@@ -57,23 +64,22 @@ function Login() {
         run(login(loginData))
             .then((d) => { })
             .catch((e) => {
-                const message = e.message;
-                if (message?.email || message?.password) {
-                    alert("asdasd");
-                    setError("email", {
-                        //type: "server",
-                        message: error.message?.email,
-                    });
-                    setError("password", {
-                        //type: "server",
-                        message: error.message?.password,
-                    });
-                } else if (message?.message_details) {
-                    setError("email", {
-                        type: "server",
-                        message: message?.message_details,
-                    });
-                }
+                const messages = e.response?.data?.message;
+
+                // if (messages && typeof messages === "object") {
+                //     // Loop through all fields and show their first error
+                //     // Object.values(messages).forEach(fieldErrors => {
+                //     //     if (Array.isArray(fieldErrors) && fieldErrors.length > 0) {
+                //     //         showToast(fieldErrors[0], "success"); // ONLY pass a string
+                //     //     }
+                //     // });
+                // } else if (typeof messages === "string") {
+                //     showToast(messages, "success"); // fallback if message is string
+                // } else {
+                showToast(e.message || "Something went wrong", "danger"); // generic error
+                // }
+
+
             });
 
         // const getCsrfToken = () => {
@@ -124,7 +130,7 @@ function Login() {
                                 <i className="icon-user text-muted"></i>
                             </div>
 
-                            <div className="alert-danger no-border">{errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}</div>
+                            {/* <div className="alert-danger no-border">{errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}</div> */}
                         </div>
 
                         <div className="form-group has-feedback has-feedback-left">
@@ -143,7 +149,7 @@ function Login() {
                                 <i className="icon-lock2 text-muted"></i>
                             </div>
 
-                            <div className="alert-danger no-border">{errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}</div>
+                            {/* <div className="alert-danger no-border">{errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}</div> */}
                         </div>
 
                         <div className="form-group">
