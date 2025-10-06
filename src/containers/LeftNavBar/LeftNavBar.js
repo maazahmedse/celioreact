@@ -76,7 +76,7 @@ function LeftNavBar() {
                 <div className="sidebar-content">
                     <div className="sidebar-user">
 
-                        <LoadableSection loaderKey="navbar">
+                        <LoadableSection loaderKey="navbar" spinner>
                             <div className="category-content">
                                 <div className="media">
                                     <a href="#" className="media-left"><img src="assets/img/placeholder.jpg"
@@ -104,7 +104,7 @@ function LeftNavBar() {
 
                     {/* <!-- Main navigation --> */}
                     <div className="sidebar-category sidebar-category-visible">
-                        <LoadableSection loaderKey="navbarnew">
+                        <LoadableSection loaderKey="navbarnew" spinner>
                             <div className="category-content no-padding">
                                 <ul className="navigation navigation-main navigation-accordion">
 

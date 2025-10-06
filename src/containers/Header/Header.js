@@ -20,12 +20,7 @@ const Header = (props) => {
 
         // First get the user data 
 
-        client("category");
-
-
-
-
-
+        // run(client("category"));
 
         const toggleButton = document.querySelector(".sidebar-main-toggle");
         if (toggleButton) {
@@ -43,7 +38,7 @@ const Header = (props) => {
 
     return (
         <>
-            <LoadableSection loaderKey="header">
+            <LoadableSection loaderKey="header" spinner>
                 <div id="spinner-light">
                     {/* <img
                 className="parental_bg_overlay"

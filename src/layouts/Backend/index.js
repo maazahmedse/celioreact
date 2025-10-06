@@ -9,6 +9,7 @@ import Footer from "../../containers/Footer/Footer";
 
 
 export default function Backend(props) {
+    console.log(props);
     return (
         <>
             <TopLevelContainerDashboard>

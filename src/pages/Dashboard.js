@@ -7,9 +7,13 @@ function Dashboard({ props }) {
     const { user } = useAuth();
     console.log(user);
 
+    useEffect(() => {
+        document.title = "dashboard.html"; // 👈 sets the title bar
+    }, []);
+
     return (
         <div id="dashboard">
-            <Backend pageheading="Dashboard" spinner user>
+            <Backend pageheading="Dashboard" user>
                 {
                     user.datainfo.map(datt => (
                         <div key={datt.id}>
