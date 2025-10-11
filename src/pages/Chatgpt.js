@@ -3,7 +3,7 @@ import OpenAI from "openai";
 
 
 const client = new OpenAI({
-    apiKey: "", // for testing only
+    apiKey: "test", // for testing only
     dangerouslyAllowBrowser: true,
 });
 
