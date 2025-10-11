@@ -5,6 +5,8 @@ import Dashboard from "../pages/Dashboard";
 import { ProtectedRoute } from "./ProtextedRoute";
 import { useAuth } from "../context/authContext";
 import Login from "../pages/Login";
+import Chatgpt from "../pages/Chatgpt";
+import ProductList from "../pages/ProductList";
 
 
 export default function AppRoutes() {
@@ -26,6 +28,18 @@ export default function AppRoutes() {
                     path="/login"
                     element={
                         <Login />
+                    } />
+                <Route
+                    path="/chat"
+                    element={
+                        <Chatgpt />
+                    } />
+                <Route
+                    path="/productlist"
+                    element={
+                        <ProtectedRoute user={user}>
+                            <ProductList />
+                        </ProtectedRoute>
                     } />
             </Routes>
         </Router>
