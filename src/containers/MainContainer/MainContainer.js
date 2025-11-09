@@ -4,7 +4,7 @@ function MainContainer(props) {
     return (
 
         <div className="panel panel-flat">
-            <div className="panel-heading">
+            {/* <div className="panel-heading">
                 <h5 className="panel-title">Basic form inputs</h5>
                 <div className="heading-elements">
                     <ul className="icons-list">
@@ -13,7 +13,7 @@ function MainContainer(props) {
                         <li><a data-action="close"></a></li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
 
             <div className="panel-body">
                 {props.children}

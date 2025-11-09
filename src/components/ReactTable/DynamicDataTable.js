@@ -57,13 +57,11 @@ export default function DynamicDataTable({
 
     const memoColumns = useMemo(() => columns, [columns]);
 
-    if (loading) return <div className="loader">Loading...</div>;
+    //if (loading) return <div className="loader">Loading...</div>;
 
     return (
-        <div className="table-container">
-            <h2>{title}</h2>
-
-            <table className="custom-table">
+        <>
+            <table className="table datatable-pagination">
                 <thead>
                     <tr>
                         {memoColumns.map((col) => (
@@ -72,7 +70,7 @@ export default function DynamicDataTable({
                     </tr>
                 </thead>
                 <tbody>
-                    {data.length > 0 ? (
+                    {data.length > 0 && !loading ? (
                         data.map((item, i) => (
                             <tr key={i}>
                                 {memoColumns.map((col) => (
@@ -85,28 +83,116 @@ export default function DynamicDataTable({
                     ) : (
                         <tr>
                             <td colSpan={memoColumns.length} style={{ textAlign: "center" }}>
-                                No data available
+                                {(loading) ? <div className="loader">
+                                    <img width="44px" height="41px" src="assets/img/pulse-loading.gif" />
+                                </div> : "No data Found"}
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
 
-            {/* ✅ Server-side pagination controls */}
-            <div className="pagination">
-                <button onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1}>
-                    ◀ Prev
-                </button>
-                <span>
-                    Page <strong>{page}</strong> of <strong>{totalPages}</strong>
-                </span>
-                <button
-                    onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                    disabled={page === totalPages}
+
+            <div className="datatable-footer">
+                <div
+                    className="dataTables_info"
+                    id="DataTables_Table_1_info"
+                    role="status"
+                    aria-live="polite"
                 >
-                    Next ▶
-                </button>
+                    Showing <strong>{page}</strong> of <strong>{totalPages}</strong> ({totalItems} entries)
+                </div>
+
+                <div
+                    className="dataTables_paginate paging_simple"
+                    id="DataTables_Table_1_paginate"
+                >
+                    {/* Prev Button */}
+                    <a
+                        onClick={() => page > 1 && setPage(page - 1)}
+                        className={`paginate_button previous ${page === 1 ? "disabled" : ""}`}
+                        aria-controls="DataTables_Table_1"
+                        data-dt-idx="0"
+                        tabIndex="0"
+                        id="DataTables_Table_1_previous"
+                        style={{
+                            pointerEvents: page === 1 ? "none" : "auto",
+                            opacity: page === 1 ? 0.5 : 1,
+                            cursor: page === 1 ? "not-allowed" : "pointer",
+                        }}
+                    >
+                        ← Prev
+                    </a>
+
+                    {/* Next Button */}
+                    <a
+                        onClick={() => page < totalPages && setPage(page + 1)}
+                        className={`paginate_button next ${page === totalPages ? "disabled" : ""}`}
+                        aria-controls="DataTables_Table_1"
+                        data-dt-idx="1"
+                        tabIndex="0"
+                        id="DataTables_Table_1_next"
+                        style={{
+                            pointerEvents: page === totalPages ? "none" : "auto",
+                            opacity: page === totalPages ? 0.5 : 1,
+                            cursor: page === totalPages ? "not-allowed" : "pointer",
+                        }}
+                    >
+                        Next →
+                    </a>
+                </div>
             </div>
-        </div>
+
+
+
+            {/* <div className="table-container">
+                <h2>{title}</h2>
+
+                <table className="custom-table">
+                    <thead>
+                        <tr>
+                            {memoColumns.map((col) => (
+                                <th key={col.accessor}>{col.Header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.length > 0 ? (
+                            data.map((item, i) => (
+                                <tr key={i}>
+                                    {memoColumns.map((col) => (
+                                        <td key={col.accessor}>
+                                            {col.accessor.split(".").reduce((o, k) => (o ? o[k] : ""), item)}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={memoColumns.length} style={{ textAlign: "center" }}>
+                                    No data available
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table> */}
+
+            {/* ✅ Server-side pagination controls */}
+            {/* <div className="pagination">
+                    <button onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1}>
+                        ◀ Prev
+                    </button>
+                    <span>
+                        Page <strong>{page}</strong> of <strong>{totalPages}</strong>
+                    </span>
+                    <button
+                        onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                        disabled={page === totalPages}
+                    >
+                        Next ▶
+                    </button>
+                </div>
+            </div> */}
+        </>
     );
 }

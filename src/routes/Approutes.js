@@ -7,6 +7,7 @@ import { useAuth } from "../context/authContext";
 import Login from "../pages/Login";
 import Chatgpt from "../pages/Chatgpt";
 import ProductList from "../pages/ProductList";
+import CreateProduct from "../pages/CreateProduct";
 
 
 export default function AppRoutes() {
@@ -17,30 +18,13 @@ export default function AppRoutes() {
     return (
         <Router>
             <Routes>
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute user={user}>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    } />
-                <Route
-                    path="/login"
-                    element={
-                        <Login />
-                    } />
-                <Route
-                    path="/chat"
-                    element={
-                        <Chatgpt />
-                    } />
-                <Route
-                    path="/productlist"
-                    element={
-                        <ProtectedRoute user={user}>
-                            <ProductList />
-                        </ProtectedRoute>
-                    } />
+                <Route path="/dashboard" element={<ProtectedRoute user={user}><Dashboard /></ProtectedRoute>} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/chat" element={<Chatgpt />} />
+
+                <Route path="/" element={<ProtectedRoute user={user}><Dashboard /></ProtectedRoute>} />
+                <Route path="/productlist" element={<ProtectedRoute user={user}><ProductList /></ProtectedRoute>} />
+                <Route path="/createproduct" element={<ProtectedRoute user={user}><CreateProduct /></ProtectedRoute>} />
             </Routes>
         </Router>
     )
